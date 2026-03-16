@@ -156,3 +156,299 @@ export interface DesignerUsageProfile {
   usage_examples: string[];
   notes?: string[];
 }
+
+// --- Reference library (runway, vintage patterns, museum, editorial) ---
+
+export type ReferenceSourceType =
+  | "runway_look"
+  | "designer_collection"
+  | "museum_garment"
+  | "editorial"
+  | "vintage_pattern"
+  | "costume_archive"
+  | "auction_listing"
+  | "brand_product";
+
+export type ReferenceSeason = "SS" | "FW" | "Resort" | "Pre-Fall" | "Unknown";
+
+export type ReferenceRightsStatus =
+  | "unknown"
+  | "internal-only"
+  | "link-only"
+  | "licensed";
+
+export type ReferenceVerificationStatus =
+  | "unreviewed"
+  | "reviewed"
+  | "expert-reviewed";
+
+export interface ReferenceSource {
+  id: string;
+  source_type: ReferenceSourceType;
+  title: string;
+  creator_name?: string;
+  house_or_brand?: string;
+  year?: number;
+  season?: ReferenceSeason;
+  era_bucket?: string;
+  garment_type?: string;
+  source_name?: string;
+  source_url?: string;
+  image_url?: string;
+  thumbnail_url?: string;
+  description?: string;
+  rights_status?: ReferenceRightsStatus;
+  verification_status?: ReferenceVerificationStatus;
+  /** Short phrases for teaching (e.g. "shows bias drape clearly") */
+  educational_value?: string[];
+}
+
+export type MaterialEvidenceType =
+  | "explicit_source_text"
+  | "visual_inference"
+  | "expert_tagging"
+  | "pattern_recommendation"
+  | "archival_metadata";
+
+export interface ReferenceMaterialObservation {
+  id: string;
+  reference_source_id: string;
+  fabric_id?: string;
+  material_label_raw?: string;
+  confidence_score: number;
+  evidence_type: MaterialEvidenceType;
+  is_primary_fabric: boolean;
+  notes?: string;
+}
+
+export interface ReferenceAttributes {
+  id: string;
+  reference_source_id: string;
+  silhouette_tags: string[];
+  construction_tags: string[];
+  surface_tags: string[];
+  weight_tags: string[];
+  drape_tags: string[];
+  structure_tags: string[];
+  color_family_tags: string[];
+  occasion_tags: string[];
+  climate_tags: string[];
+}
+
+export interface ReferencePatternLink {
+  id: string;
+  reference_source_id: string;
+  pattern_company?: string;
+  pattern_number?: string;
+  pattern_year?: number;
+  view_label?: string;
+  recommended_fabrics_raw?: string[];
+  notions_raw?: string[];
+  yardage_raw?: string[];
+  size_range_raw?: string;
+  envelope_notes?: string;
+}
+
+export type FabricReferenceRelationshipType =
+  | "explicit_use"
+  | "probable_use"
+  | "similar_hand"
+  | "similar_surface"
+  | "pattern_recommended"
+  | "construction_analogue";
+
+export interface FabricReferenceLink {
+  id: string;
+  fabric_id: string;
+  reference_source_id: string;
+  relationship_type: FabricReferenceRelationshipType;
+  confidence_score: number;
+  notes?: string;
+}
+
+export interface ReferenceDesignerLink {
+  id: string;
+  reference_source_id: string;
+  designer_name: string;
+  house_name?: string;
+  collection_name?: string;
+}
+
+/** Computed view for UI: one card per reference with kind and confidence */
+export type ReferenceCardKind = "runway" | "vintage" | "museum";
+
+export type ConfidenceLabel = "high" | "medium" | "low";
+
+export interface ReferenceCardView {
+  reference_id: string;
+  title: string;
+  kind: ReferenceCardKind;
+  confidence_label: ConfidenceLabel;
+  primary_fabric_name?: string;
+  material_label_raw?: string;
+  summary: string;
+  year?: number;
+  season?: string;
+  garment_type?: string;
+  house_or_brand?: string;
+  creator_name?: string;
+  era_bucket?: string;
+  educational_value?: string[];
+  /** Vintage-only: pattern company, number, recommended fabrics */
+  pattern_company?: string;
+  pattern_number?: string;
+  recommended_fabrics_raw?: string[];
+  notions_raw?: string[];
+  yardage_raw?: string[];
+  envelope_notes?: string;
+}
+
+// --- Color profile system (skin + hair + eye + combined) ---
+// Designed to attach fabrics, metals, prints, makeup, runway refs, stitch guidance later.
+
+export type ColorProfileUndertone =
+  | "warm"
+  | "cool"
+  | "neutral"
+  | "olive"
+  | "golden"
+  | "peach"
+  | "red"
+  | "rosy"
+  | "ash";
+
+export type DepthFamily =
+  | "very_fair"
+  | "fair"
+  | "light"
+  | "light_medium"
+  | "medium"
+  | "tan"
+  | "dark"
+  | "deep";
+
+export type ContrastLevel = "low" | "medium" | "high";
+
+export type HairFamily =
+  | "blonde"
+  | "brown"
+  | "black"
+  | "red"
+  | "auburn"
+  | "gray"
+  | "white";
+
+export type EyeFamily =
+  | "blue"
+  | "green"
+  | "hazel"
+  | "brown"
+  | "gray"
+  | "amber"
+  | "mixed";
+
+export type IntensityLevel = "soft" | "medium" | "bright" | "deep";
+
+export type MetalRecommendation =
+  | "soft_gold"
+  | "yellow_gold"
+  | "champagne_gold"
+  | "rose_gold"
+  | "silver"
+  | "gunmetal"
+  | "bronze"
+  | "oxidized_bronze";
+
+export interface RawShadeData {
+  name: string;
+  base_hex: string;
+  palette: string[];
+}
+
+export interface SkinShade extends RawShadeData {
+  id: string;
+  shade_number: number;
+  depth_family: DepthFamily;
+  undertone_family: ColorProfileUndertone[];
+  temperature_bias: "warm" | "cool" | "neutral";
+  contrast_default: ContrastLevel;
+  recommended_metals: MetalRecommendation[];
+  best_whites: string[];
+  best_denims: string[];
+  avoid_neutrals: string[];
+}
+
+export type HairDepthLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
+export interface HairShade {
+  id: string;
+  code: string;
+  name: string;
+  family: HairFamily;
+  depth_level: HairDepthLevel;
+  undertone_family: ColorProfileUndertone[];
+  default_hex: string;
+  intensity: IntensityLevel;
+  recommended_metals: MetalRecommendation[];
+  notes?: string;
+}
+
+export type EyePattern =
+  | "solid"
+  | "flecked"
+  | "ringed"
+  | "mixed"
+  | "central_heterochromia";
+
+export interface EyeShade {
+  id: string;
+  code: string;
+  name: string;
+  family: EyeFamily;
+  undertone_family: ColorProfileUndertone[];
+  intensity: IntensityLevel;
+  default_hex: string;
+  pattern?: EyePattern;
+}
+
+export type TemperatureSummary =
+  | "warm"
+  | "cool"
+  | "neutral-balanced"
+  | "olive-balanced";
+
+export interface CombinedProfile {
+  id: string;
+  code: string;
+  skin_shade_number: number;
+  hair_code: string;
+  eye_code: string;
+  overall_contrast: ContrastLevel;
+  temperature_summary: TemperatureSummary;
+  top_neutrals: string[];
+  accent_colors: string[];
+  avoid_colors: string[];
+  best_metals: MetalRecommendation[];
+  notes: string;
+}
+
+export type OverrideEffect = "boost" | "penalize" | "avoid" | "highlight";
+
+export type OverrideTargetType =
+  | "neutral"
+  | "accent"
+  | "metal"
+  | "denim"
+  | "print";
+
+export interface RecommendationOverride {
+  id: string;
+  skin_shade_number?: number;
+  hair_code?: string;
+  eye_code?: string;
+  effect: OverrideEffect;
+  target_type: OverrideTargetType;
+  target_value: string;
+  score_delta: number;
+  reason: string;
+}

@@ -1,12 +1,34 @@
 import type { FabricRecommendation } from "@/lib/types";
+import { NEUTRAL_SWATCHES, COLOR_POP_SWATCHES } from "@/lib/colorFamilies";
 
 interface FabricCardProps {
   recommendation: FabricRecommendation;
   rank: number;
 }
 
+function SwatchRow({ swatches }: { swatches: { name: string; hex: string }[] }) {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      {swatches.map(({ name, hex }) => (
+        <span
+          key={name}
+          className="inline-flex items-center gap-1.5"
+          title={name}
+        >
+          <span
+            className="h-4 w-4 shrink-0 rounded-full border border-[var(--border)] shadow-[0_0_0_1px_rgba(0,0,0/.08)]"
+            style={{ backgroundColor: hex }}
+            aria-hidden
+          />
+          <span className="text-sm text-[var(--foreground)]">{name}</span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default function FabricCard({ recommendation, rank }: FabricCardProps) {
-  const { fabric, scoreBreakdown, matchReasons, bestColorFamily } = recommendation;
+  const { fabric, scoreBreakdown, matchReasons } = recommendation;
   const { total_score, skin_tone_score, climate_score, durability_score, comfort_score, explanation } = scoreBreakdown;
 
   return (
@@ -65,13 +87,23 @@ export default function FabricCard({ recommendation, rank }: FabricCardProps) {
           </ul>
         </div>
 
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
-            Best color family
-          </p>
-          <p className="mt-1 text-sm font-medium text-[var(--foreground)] capitalize">
-            {bestColorFamily}
-          </p>
+        <div className="space-y-3">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+              Neutrals
+            </p>
+            <div className="mt-2">
+              <SwatchRow swatches={NEUTRAL_SWATCHES} />
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+              Color pops
+            </p>
+            <div className="mt-2">
+              <SwatchRow swatches={COLOR_POP_SWATCHES} />
+            </div>
+          </div>
         </div>
 
         <div>

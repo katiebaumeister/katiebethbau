@@ -17,8 +17,11 @@ export const metadata: Metadata = {
   description:
     "Recommendations by climate, skin tone, durability, and comfort. Find fabrics that flatter and perform.",
   icons: {
-    icon: "/icon.png?v=2",
-    apple: "/icon.png?v=2",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: "/icon.png",
   },
 };
 

@@ -1,0 +1,73 @@
+/**
+ * Vintage pattern links — company, number, recommended fabrics, notions, yardage.
+ */
+
+import type { ReferencePatternLink } from "@/lib/types";
+
+export const referencePatternLinks: ReferencePatternLink[] = [
+  {
+    id: "RPL_001",
+    reference_source_id: "REF_VINTAGE_001",
+    pattern_company: "Simplicity",
+    pattern_number: "VINTAGE_PLACEHOLDER_1956_DAYDRESS",
+    pattern_year: 1956,
+    view_label: "View A",
+    recommended_fabrics_raw: ["pique", "broadcloth", "linen", "polished cotton"],
+    notions_raw: ["zipper", "interfacing", "thread"],
+    yardage_raw: ["approx 3 to 5 yards depending on width and size"],
+    size_range_raw: "varies by pattern",
+    envelope_notes: "Fitted bodice and full skirt silhouette requiring some body.",
+  },
+  {
+    id: "RPL_002",
+    reference_source_id: "REF_VINTAGE_002",
+    pattern_company: "Butterick",
+    pattern_number: "VINTAGE_PLACEHOLDER_1947_SHIRTWAIST",
+    pattern_year: 1947,
+    view_label: "Main view",
+    recommended_fabrics_raw: ["cotton shirting", "chambray", "linen"],
+    notions_raw: ["buttons", "belt materials", "thread"],
+    yardage_raw: ["approx 3 to 4 yards depending on width and size"],
+    size_range_raw: "varies by pattern",
+    envelope_notes: "Day dress with practical structure and shirtmaking details.",
+  },
+  {
+    id: "RPL_003",
+    reference_source_id: "REF_VINTAGE_004",
+    pattern_company: "McCall",
+    pattern_number: "VINTAGE_PLACEHOLDER_1937_BIASGOWN",
+    pattern_year: 1937,
+    view_label: "Evening version",
+    recommended_fabrics_raw: ["silk satin", "crepe", "rayon"],
+    notions_raw: ["zipper or snaps", "thread"],
+    yardage_raw: ["approx 4 to 6 yards depending on width and train"],
+    size_range_raw: "varies by pattern",
+    envelope_notes: "Bias-cut gown intended for fluid, elegant drape.",
+  },
+  {
+    id: "RPL_004",
+    reference_source_id: "REF_VINTAGE_009",
+    pattern_company: "Vogue",
+    pattern_number: "VINTAGE_PLACEHOLDER_1955_PARTYDRESS",
+    pattern_year: 1955,
+    view_label: "Party dress",
+    recommended_fabrics_raw: ["taffeta", "satin", "faille", "organdy"],
+    notions_raw: ["zipper", "boning optional", "interfacing", "thread"],
+    yardage_raw: ["approx 3 to 6 yards depending on skirt fullness"],
+    size_range_raw: "varies by pattern",
+    envelope_notes: "Formal dress with fitted bodice and high-volume skirt.",
+  },
+  {
+    id: "RPL_005",
+    reference_source_id: "REF_VINTAGE_010",
+    pattern_company: "Vogue",
+    pattern_number: "VINTAGE_PLACEHOLDER_1987_BLAZER",
+    pattern_year: 1987,
+    view_label: "Tailored jacket",
+    recommended_fabrics_raw: ["wool suiting", "gabardine", "linen blend suiting"],
+    notions_raw: ["shoulder pads", "lining", "interfacing", "buttons"],
+    yardage_raw: ["approx 2 to 3 yards plus lining"],
+    size_range_raw: "varies by pattern",
+    envelope_notes: "Structured blazer with strong shoulder and tailored lapel.",
+  },
+];

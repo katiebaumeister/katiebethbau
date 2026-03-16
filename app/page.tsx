@@ -60,6 +60,18 @@ export default function Home() {
                 Find My Fabric
               </Link>
               <Link
+                href="/measurements"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] px-8 py-3.5 text-sm font-medium text-[var(--foreground)] transition hover:border-[var(--muted)]"
+              >
+                Measurement profiles
+              </Link>
+              <Link
+                href="/garments"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] px-8 py-3.5 text-sm font-medium text-[var(--foreground)] transition hover:border-[var(--muted)]"
+              >
+                Garment fit
+              </Link>
+              <Link
                 href="/fabrics/FAB006"
                 className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] px-8 py-3.5 text-sm font-medium text-[var(--foreground)] transition hover:border-[var(--muted)]"
               >

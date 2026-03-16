@@ -9,6 +9,8 @@ import {
   scoreFabricForClimate,
   type ClimateKey,
 } from "@/lib/fabricHelpers";
+import { getAllReferencesForFabricGrouped } from "@/lib/referenceHelpers";
+import FabricReferencesPanel from "@/components/FabricReferencesPanel";
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
@@ -41,6 +43,7 @@ export default async function FabricDetailPage({ params }: PageProps) {
   const stitchProfile = getStitchProfileForFabric(fabric);
   const climateProfile = getClimateProfileForFabric(fabric);
   const designerProfile = getDesignerProfileForFabric(fabric);
+  const referencesGrouped = getAllReferencesForFabricGrouped(fabric.id);
 
   return (
     <div className="min-h-screen bg-[var(--background)]">
@@ -221,12 +224,19 @@ export default async function FabricDetailPage({ params }: PageProps) {
               )}
             </section>
 
-            {/* Historical designer examples */}
-            <section className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6">
-              <h2 className="text-sm font-medium uppercase tracking-wider text-[var(--muted)]">
-                Historical & runway references
-              </h2>
-              {designerProfile ? (
+            {/* Reference library: runway, vintage patterns, museum */}
+            <FabricReferencesPanel
+              runway={referencesGrouped.runway}
+              vintage={referencesGrouped.vintage}
+              museum={referencesGrouped.museum}
+            />
+
+            {/* Designer associations (profile-level) */}
+            {designerProfile && (
+              <section className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6">
+                <h2 className="text-sm font-medium uppercase tracking-wider text-[var(--muted)]">
+                  Designer associations
+                </h2>
                 <div className="mt-4 space-y-3">
                   <div>
                     <p className="text-xs text-[var(--muted)]">Historical designers</p>
@@ -247,12 +257,8 @@ export default async function FabricDetailPage({ params }: PageProps) {
                     </p>
                   </div>
                 </div>
-              ) : (
-                <p className="mt-2 text-sm text-[var(--muted)]">
-                  No designer profile linked.
-                </p>
-              )}
-            </section>
+              </section>
+            )}
           </div>
 
           <aside className="lg:sticky lg:top-8 lg:self-start">
