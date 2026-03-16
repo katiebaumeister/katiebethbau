@@ -16,6 +16,10 @@ export const metadata: Metadata = {
   title: "Fabric Finder — Choose the right fabric for your project",
   description:
     "Recommendations by climate, skin tone, durability, and comfort. Find fabrics that flatter and perform.",
+  icons: {
+    icon: "/icon.png?v=2",
+    apple: "/icon.png?v=2",
+  },
 };
 
 export default function RootLayout({
