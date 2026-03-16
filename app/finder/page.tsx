@@ -28,12 +28,12 @@ export default function FinderPage() {
           <Link href="/" className="text-lg font-medium tracking-tight text-[var(--foreground)]">
             Fabric Finder
           </Link>
-          <nav>
-            <Link
-              href="/"
-              className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition"
-            >
+          <nav className="flex gap-6">
+            <Link href="/" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition">
               Home
+            </Link>
+            <Link href="/color-profile" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition">
+              Color profile
             </Link>
           </nav>
         </div>

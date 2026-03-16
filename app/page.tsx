@@ -9,12 +9,18 @@ export default function Home() {
           <Link href="/" className="text-lg font-medium tracking-tight text-[var(--foreground)]">
             Fabric Finder
           </Link>
-          <nav>
+          <nav className="flex gap-6">
             <Link
               href="/finder"
               className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition"
             >
               Find fabric
+            </Link>
+            <Link
+              href="/color-profile"
+              className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition"
+            >
+              Color profile
             </Link>
           </nav>
         </div>

@@ -7,7 +7,11 @@ import type {
   ComfortOption,
   FinderFilters,
 } from "@/lib/types";
+import { getSkinToneById } from "@/data/skinTones";
 import SkinToneSelector from "./SkinToneSelector";
+import HairShadeSelector from "./HairShadeSelector";
+import EyeShadeSelector from "./EyeShadeSelector";
+import ColorProfileSummary from "./ColorProfileSummary";
 
 const CLIMATE_OPTIONS: { value: ClimateOption; label: string }[] = [
   { value: "cold", label: "Cold" },
@@ -42,6 +46,12 @@ export default function FilterPanel({ initialFilters = {}, onSubmit }: FilterPan
   const [skinToneId, setSkinToneId] = useState<string | null>(
     initialFilters.skinToneId ?? null
   );
+  const [hairCode, setHairCode] = useState<string | null>(
+    initialFilters.hairCode ?? null
+  );
+  const [eyeCode, setEyeCode] = useState<string | null>(
+    initialFilters.eyeCode ?? null
+  );
   const [durability, setDurability] = useState<DurabilityOption | null>(
     initialFilters.durability ?? null
   );
@@ -49,11 +59,17 @@ export default function FilterPanel({ initialFilters = {}, onSubmit }: FilterPan
     initialFilters.comfort ?? null
   );
 
+  const skinShadeNumber = skinToneId ? getSkinToneById(skinToneId)?.shadeNumber : undefined;
+  const showColorProfile =
+    skinShadeNumber != null && hairCode && eyeCode;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({
       climate,
       skinToneId,
+      hairCode: hairCode ?? null,
+      eyeCode: eyeCode ?? null,
       durability,
       comfort,
     });
@@ -62,6 +78,17 @@ export default function FilterPanel({ initialFilters = {}, onSubmit }: FilterPan
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <SkinToneSelector selectedId={skinToneId} onSelect={setSkinToneId} />
+
+      <HairShadeSelector selectedCode={hairCode} onSelect={setHairCode} />
+      <EyeShadeSelector selectedCode={eyeCode} onSelect={setEyeCode} />
+
+      {showColorProfile && (
+        <ColorProfileSummary
+          skinShadeNumber={skinShadeNumber}
+          hairCode={hairCode}
+          eyeCode={eyeCode}
+        />
+      )}
 
       <div>
         <label className="block text-sm font-medium text-[var(--foreground)] mb-2">

@@ -18,6 +18,10 @@ export type ComfortOption =
 export interface FinderFilters {
   climate: ClimateOption | null;
   skinToneId: string | null;
+  /** Hair shade code for combined color profile (e.g. "golden_blonde"). */
+  hairCode?: string | null;
+  /** Eye shade code for combined color profile (e.g. "amber"). */
+  eyeCode?: string | null;
   durability: DurabilityOption | null;
   comfort: ComfortOption | null;
 }

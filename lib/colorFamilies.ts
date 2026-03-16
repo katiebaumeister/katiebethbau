@@ -39,7 +39,10 @@ const COLOR_FAMILY_HEX: Record<string, string> = {
 /** Returns hex for a color family name (case-insensitive). Fallback for unknown names. */
 export function getHexForColorFamily(name: string): string {
   const key = name.toLowerCase().trim();
-  return COLOR_FAMILY_HEX[key] ?? "#9ca3af";
+  if (COLOR_FAMILY_HEX[key]) return COLOR_FAMILY_HEX[key];
+  const lastWord = key.split(/\s+/).pop();
+  if (lastWord && COLOR_FAMILY_HEX[lastWord]) return COLOR_FAMILY_HEX[lastWord];
+  return "#9ca3af";
 }
 
 export interface ColorSwatch {
