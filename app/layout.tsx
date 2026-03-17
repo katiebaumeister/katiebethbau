@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "KATIE BETH",
+  title: "KATIE BETH BAU",
   description:
     "Recommendations by climate, skin tone, durability, and comfort. Find fabrics that flatter and perform.",
   icons: {
