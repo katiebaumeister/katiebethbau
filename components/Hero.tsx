@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[var(--background)]">
-      <div className="mx-auto max-w-4xl px-6 py-24 sm:py-32 text-center">
+    <section className="relative flex min-h-[calc(100vh-88px)] items-center overflow-hidden bg-[var(--background)]">
+      <div className="mx-auto max-w-4xl px-6 py-16 text-center sm:py-20">
         <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)] mb-4">
           Sew smarter
         </p>
