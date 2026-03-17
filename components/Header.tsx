@@ -26,7 +26,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setMenuOpen((o) => !o)}
-            className="flex size-10 items-center justify-center rounded-md text-[var(--foreground)] hover:bg-[var(--border)]/50 transition"
+            className="flex size-10 items-center justify-center rounded-md text-[#FF66C4] hover:bg-[var(--border)]/50 transition"
             aria-expanded={menuOpen}
             aria-haspopup="true"
             aria-label="Open menu"
@@ -56,6 +56,14 @@ export default function Header() {
               >
                 Color profile
               </Link>
+              <Link
+                href="/garments"
+                className="block px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--border)]/50 transition"
+                role="menuitem"
+                onClick={() => setMenuOpen(false)}
+              >
+                Garment fit
+              </Link>
             </div>
           )}
         </div>
@@ -75,10 +83,24 @@ export default function Header() {
         </div>
 
         {/* Shopping cart (right) */}
-        <div className="flex w-10 flex-shrink-0 items-center justify-end">
+        <div className="flex items-center justify-end gap-1">
+          <Link
+            href="/measurements"
+            className="flex size-10 items-center justify-center rounded-md text-[#FF66C4] hover:bg-[var(--border)]/50 transition"
+            aria-label="Profile"
+          >
+            <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975M15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+              />
+            </svg>
+          </Link>
           <button
             type="button"
-            className="flex size-10 items-center justify-center rounded-md text-[var(--foreground)] hover:bg-[var(--border)]/50 transition"
+            className="flex size-10 items-center justify-center rounded-md text-[#FF66C4] hover:bg-[var(--border)]/50 transition"
             aria-label="Shopping cart"
           >
             <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
