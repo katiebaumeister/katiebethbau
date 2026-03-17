@@ -20,7 +20,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--surface)]">
-      <div className="relative mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+      <div className="relative flex w-full items-center justify-between px-4 py-5 sm:px-6">
         {/* Menu button (left) */}
         <div className="flex w-10 flex-shrink-0 items-center justify-start" ref={menuRef}>
           <button
@@ -61,14 +61,14 @@ export default function Header() {
         </div>
 
         {/* Centered logo */}
-        <div className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center">
-          <Link href="/" className="block h-20 w-56 overflow-hidden">
+        <div className="absolute left-1/2 flex -translate-x-1/2 translate-y-2 items-center justify-center">
+          <Link href="/" className="block h-24 w-64 overflow-hidden">
             <Image
               src="/KB.png"
               alt="Katie Beth"
               width={220}
               height={72}
-              className="h-full w-full scale-[3.1] object-contain"
+              className="h-full w-full scale-[3.5] object-contain"
               priority
             />
           </Link>
