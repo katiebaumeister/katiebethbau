@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { loadStoredProfiles } from "@/lib/measurementStorage";
+import { getSkinToneById } from "@/data/skinTones";
+import { getHairShadeByCode } from "@/data/hairShades";
+import { getEyeShadeByCode } from "@/data/eyeShades";
 
 export default function MeasurementProfileList() {
   const [profiles, setProfiles] = useState<ReturnType<typeof loadStoredProfiles>>([]);
@@ -37,7 +40,7 @@ export default function MeasurementProfileList() {
 
   return (
     <ul className="space-y-3">
-      {profiles.map(({ profile, derived, bodyShape }) => (
+      {profiles.map(({ profile, derived, bodyShape, preferences }) => (
         <li key={profile.id}>
           <Link
             href={`/garments?profileId=${encodeURIComponent(profile.id)}`}
@@ -48,6 +51,31 @@ export default function MeasurementProfileList() {
               {bodyShape.primary_shape?.replace(/_/g, " ")} · {profile.units}
               {derived.derived_vertical_balance ? ` · ${derived.derived_vertical_balance.replace(/_/g, " ")}` : ""}
             </p>
+            {(() => {
+              if (!preferences) return null;
+              const details: string[] = [];
+              if (preferences.climate) details.push(`Climate: ${preferences.climate}`);
+              if (preferences.durability) details.push(`Durability: ${preferences.durability}`);
+              if (preferences.comfort) details.push(`Comfort: ${preferences.comfort.replace("-", " ")}`);
+              if (preferences.skinToneId) {
+                const skin = getSkinToneById(preferences.skinToneId);
+                if (skin) details.push(`Skin: ${skin.shadeNumber} ${skin.name}`);
+              }
+              if (preferences.hairCode) {
+                const hair = getHairShadeByCode(preferences.hairCode);
+                if (hair) details.push(`Hair: ${hair.name}`);
+              }
+              if (preferences.eyeCode) {
+                const eye = getEyeShadeByCode(preferences.eyeCode);
+                if (eye) details.push(`Eyes: ${eye.name}`);
+              }
+              if (details.length === 0) return null;
+              return (
+                <p className="mt-1 text-xs text-[var(--muted)]">
+                  {details.join(" · ")}
+                </p>
+              );
+            })()}
           </Link>
         </li>
       ))}

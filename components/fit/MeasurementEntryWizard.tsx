@@ -17,6 +17,10 @@ import type {
 import { draftToProfile, deriveMeasurementProfile, classifyBodyShape } from "@/lib/fitMath";
 import { addStoredProfile } from "@/lib/measurementStorage";
 import type { PrimaryShape } from "@/lib/fitTypes";
+import type { ClimateOption, DurabilityOption, ComfortOption } from "@/lib/types";
+import { skinTones } from "@/data/skinTones";
+import { hairShades } from "@/data/hairShades";
+import { eyeShades } from "@/data/eyeShades";
 
 const STEPS = 6;
 
@@ -84,6 +88,27 @@ const PRIMARY_SHAPES: PrimaryShape[] = [
   "apple",
   "oval",
   "diamond",
+];
+
+const CLIMATE_OPTIONS: { value: ClimateOption; label: string }[] = [
+  { value: "cold", label: "Cold" },
+  { value: "temperate", label: "Temperate" },
+  { value: "hot", label: "Hot" },
+  { value: "humid", label: "Humid" },
+  { value: "dry", label: "Dry" },
+];
+
+const DURABILITY_OPTIONS: { value: DurabilityOption; label: string }[] = [
+  { value: "low", label: "Low" },
+  { value: "medium", label: "Medium" },
+  { value: "high", label: "High" },
+];
+
+const COMFORT_OPTIONS: { value: ComfortOption; label: string }[] = [
+  { value: "soft-drapey", label: "Soft / Drapey" },
+  { value: "breathable", label: "Breathable" },
+  { value: "structured", label: "Structured" },
+  { value: "low-maintenance", label: "Low maintenance" },
 ];
 
 const defaultDraft: MeasurementEntryDraft = {
@@ -169,6 +194,12 @@ export default function MeasurementEntryWizard() {
   const [step, setStep] = useState(1);
   const [draft, setDraft] = useState<MeasurementEntryDraft>(defaultDraft);
   const [saved, setSaved] = useState(false);
+  const [preferenceClimate, setPreferenceClimate] = useState<ClimateOption | null>(null);
+  const [preferenceDurability, setPreferenceDurability] = useState<DurabilityOption | null>(null);
+  const [preferenceComfort, setPreferenceComfort] = useState<ComfortOption | null>(null);
+  const [preferenceSkinToneId, setPreferenceSkinToneId] = useState<string | null>(null);
+  const [preferenceHairCode, setPreferenceHairCode] = useState<string | null>(null);
+  const [preferenceEyeCode, setPreferenceEyeCode] = useState<string | null>(null);
 
   const update = (part: Partial<MeasurementEntryDraft>) => {
     setDraft((p) => ({ ...p, ...part }));
@@ -184,7 +215,19 @@ export default function MeasurementEntryWizard() {
       bodyShape.primary_shape = draft.user_selected_shape as PrimaryShape;
       bodyShape.explanation.push("Primary shape overridden by user.");
     }
-    addStoredProfile({ profile, derived, bodyShape });
+    addStoredProfile({
+      profile,
+      derived,
+      bodyShape,
+      preferences: {
+        climate: preferenceClimate,
+        durability: preferenceDurability,
+        comfort: preferenceComfort,
+        skinToneId: preferenceSkinToneId,
+        hairCode: preferenceHairCode,
+        eyeCode: preferenceEyeCode,
+      },
+    });
     setSaved(true);
   };
 
@@ -409,6 +452,79 @@ export default function MeasurementEntryWizard() {
               Your measurements and derived shape will be stored in this browser. Use this profile when
               checking fit for historical patterns, archival looks, or runway-inspired garments.
             </p>
+            <div className="mt-6 rounded-lg border border-[var(--border)] bg-[var(--background)] p-4">
+              <h4 className="text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+                Optional color and fabric preferences
+              </h4>
+              <p className="mt-1 text-xs text-[var(--muted)]">
+                Save your color profile and finder preferences with this measurement profile.
+              </p>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <SelectOption
+                  label="Climate"
+                  options={CLIMATE_OPTIONS}
+                  value={preferenceClimate ?? undefined}
+                  onChange={(v) => setPreferenceClimate(v)}
+                />
+                <SelectOption
+                  label="Durability"
+                  options={DURABILITY_OPTIONS}
+                  value={preferenceDurability ?? undefined}
+                  onChange={(v) => setPreferenceDurability(v)}
+                />
+                <SelectOption
+                  label="Comfort"
+                  options={COMFORT_OPTIONS}
+                  value={preferenceComfort ?? undefined}
+                  onChange={(v) => setPreferenceComfort(v)}
+                />
+                <div>
+                  <label className="block text-sm font-medium text-[var(--foreground)]">Skin tone</label>
+                  <select
+                    value={preferenceSkinToneId ?? ""}
+                    onChange={(e) => setPreferenceSkinToneId(e.target.value || null)}
+                    className="mt-1 w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-[var(--foreground)]"
+                  >
+                    <option value="">Select…</option>
+                    {skinTones.map((tone) => (
+                      <option key={tone.id} value={tone.id}>
+                        {tone.shadeNumber} - {tone.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[var(--foreground)]">Hair color</label>
+                  <select
+                    value={preferenceHairCode ?? ""}
+                    onChange={(e) => setPreferenceHairCode(e.target.value || null)}
+                    className="mt-1 w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-[var(--foreground)]"
+                  >
+                    <option value="">Select…</option>
+                    {hairShades.map((shade) => (
+                      <option key={shade.id} value={shade.code}>
+                        {shade.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[var(--foreground)]">Eye color</label>
+                  <select
+                    value={preferenceEyeCode ?? ""}
+                    onChange={(e) => setPreferenceEyeCode(e.target.value || null)}
+                    className="mt-1 w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-[var(--foreground)]"
+                  >
+                    <option value="">Select…</option>
+                    {eyeShades.map((shade) => (
+                      <option key={shade.id} value={shade.code}>
+                        {shade.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
             <button
               type="button"
               onClick={handleSave}

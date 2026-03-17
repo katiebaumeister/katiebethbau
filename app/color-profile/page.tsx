@@ -30,7 +30,7 @@ export default function ColorProfilePage() {
 
       <footer className="mt-16 border-t border-[var(--border)] bg-[var(--surface)] py-8">
         <div className="mx-auto max-w-4xl px-6 text-center text-sm text-[var(--muted)]">
-          Fabric Finder — color profile
+          © Katie Beth. All rights reserved.
         </div>
       </footer>
     </div>

@@ -8,6 +8,7 @@ import type {
   MeasurementProfileDerived,
   BodyShapeProfile,
 } from "./fitTypes";
+import type { ClimateOption, ComfortOption, DurabilityOption } from "./types";
 
 const STORAGE_KEY = "ff_measurement_profiles";
 
@@ -15,6 +16,16 @@ export interface StoredProfile {
   profile: MeasurementProfile;
   derived: MeasurementProfileDerived;
   bodyShape: BodyShapeProfile;
+  preferences?: StoredProfilePreferences;
+}
+
+export interface StoredProfilePreferences {
+  climate: ClimateOption | null;
+  durability: DurabilityOption | null;
+  comfort: ComfortOption | null;
+  skinToneId: string | null;
+  hairCode: string | null;
+  eyeCode: string | null;
 }
 
 export function loadStoredProfiles(): StoredProfile[] {

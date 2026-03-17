@@ -41,11 +41,7 @@ export default function GarmentsPage() {
 
       <footer className="mt-16 border-t border-[var(--border)] bg-[var(--surface)] py-8">
         <div className="mx-auto max-w-4xl px-6 text-center text-sm text-[var(--muted)]">
-          <Link href="/measurements" className="hover:text-[var(--foreground)] transition">
-            Enter or edit measurement profiles
-          </Link>
-          {" · "}
-          Fabric Finder
+          © Katie Beth. All rights reserved.
         </div>
       </footer>
     </div>
