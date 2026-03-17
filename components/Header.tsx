@@ -62,13 +62,13 @@ export default function Header() {
 
         {/* Centered logo */}
         <div className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center">
-          <Link href="/" className="block">
+          <Link href="/" className="block h-20 w-56 overflow-hidden">
             <Image
               src="/KB.png"
               alt="Katie Beth"
-              width={120}
-              height={40}
-              className="h-8 w-auto object-contain"
+              width={220}
+              height={72}
+              className="h-full w-full scale-[3.1] object-contain"
               priority
             />
           </Link>
