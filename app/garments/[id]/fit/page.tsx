@@ -10,9 +10,8 @@ export async function generateMetadata({
 }) {
   const { id } = await params;
   const garment = getGarmentExampleById(id);
-  if (!garment) return { title: "Garment not found" };
+  if (!garment) return { description: "Garment not found." };
   return {
-    title: `Fit: ${garment.title} — Fabric Finder`,
     description: `Fit recommendations and adjustment suggestions for ${garment.title}.`,
   };
 }
@@ -28,22 +27,6 @@ export default async function GarmentFitPage({
 
   return (
     <div className="min-h-screen bg-[var(--background)]">
-      <header className="border-b border-[var(--border)] bg-[var(--surface)]">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
-          <Link href="/" className="text-lg font-medium tracking-tight text-[var(--foreground)]">
-            Fabric Finder
-          </Link>
-          <nav className="flex gap-6">
-            <Link href="/garments" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition">
-              Garments
-            </Link>
-            <Link href="/measurements" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition">
-              My profiles
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       <main className="mx-auto max-w-4xl px-6 py-12">
         <div className="mb-6">
           <Link href="/garments" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)]">

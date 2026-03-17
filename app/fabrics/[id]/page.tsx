@@ -15,9 +15,8 @@ import FabricReferencesPanel from "@/components/FabricReferencesPanel";
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
   const fabric = getFabricById(id);
-  if (!fabric) return { title: "Fabric not found" };
+  if (!fabric) return { description: "Fabric not found." };
   return {
-    title: `${fabric.name} — Fabric Finder`,
     description: `Climate fit, stitch methods, ideal garments, and designer references for ${fabric.name}.`,
   };
 }
@@ -47,25 +46,6 @@ export default async function FabricDetailPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-[var(--background)]">
-      <header className="border-b border-[var(--border)] bg-[var(--surface)]">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
-          <Link
-            href="/"
-            className="text-lg font-medium tracking-tight text-[var(--foreground)]"
-          >
-            Fabric Finder
-          </Link>
-          <nav className="flex gap-6">
-            <Link
-              href="/finder"
-              className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition"
-            >
-              Find fabric
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       <main className="mx-auto max-w-4xl px-6 py-12">
         <div className="mb-8">
           <p className="text-xs uppercase tracking-wider text-[var(--muted)]">

@@ -2,29 +2,12 @@ import Link from "next/link";
 import { garmentExamples } from "@/data/garmentExamples";
 
 export const metadata = {
-  title: "Garment fit — Fabric Finder",
   description: "Check fit for archival looks, patterns, and runway-inspired garments.",
 };
 
 export default function GarmentsPage() {
   return (
     <div className="min-h-screen bg-[var(--background)]">
-      <header className="border-b border-[var(--border)] bg-[var(--surface)]">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
-          <Link href="/" className="text-lg font-medium tracking-tight text-[var(--foreground)]">
-            Fabric Finder
-          </Link>
-          <nav className="flex gap-6">
-            <Link href="/" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition">
-              Home
-            </Link>
-            <Link href="/measurements" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition">
-              My profiles
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       <main className="mx-auto max-w-4xl px-6 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-light tracking-tight text-[var(--foreground)]">

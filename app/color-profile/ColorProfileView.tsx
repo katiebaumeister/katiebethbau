@@ -15,9 +15,9 @@ import { eyeShades } from "@/data/eyeShades";
 
 function ColorProfilePicker() {
   const router = useRouter();
-  const [skinId, setSkinId] = useState<string>("");
-  const [hairCode, setHairCode] = useState<string>("");
-  const [eyeCode, setEyeCode] = useState<string>("");
+  const [skinId, setSkinId] = useState<string | null>(null);
+  const [hairCode, setHairCode] = useState<string | null>(null);
+  const [eyeCode, setEyeCode] = useState<string | null>(null);
 
   const handleShow = () => {
     const shadeNumber = skinId ? skinTones.find((s) => s.id === skinId)?.shadeNumber : undefined;
@@ -38,48 +38,112 @@ function ColorProfilePicker() {
       <p className="text-sm text-[var(--muted)] mb-6">
         Select skin, hair, and eye colors to see your combined color profile.
       </p>
-      <div className="space-y-4 max-w-md">
+      <div className="space-y-8">
+        {/* Skin tone — same circle grid as Finder */}
         <div>
-          <label className="block text-xs font-medium text-[var(--foreground)] mb-1">Skin tone</label>
-          <select
-            value={skinId}
-            onChange={(e) => setSkinId(e.target.value)}
-            className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)]"
-          >
-            <option value="">Select…</option>
-            {skinTones.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.shadeNumber}. {s.name}
-              </option>
+          <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
+            Skin tone
+          </label>
+          <p className="text-sm text-[var(--muted)] mb-3">
+            Select the shade closest to your skin.
+          </p>
+          <div className="grid grid-cols-6 sm:grid-cols-10 gap-2">
+            {skinTones.map((tone) => (
+              <button
+                key={tone.id}
+                type="button"
+                onClick={() => setSkinId(skinId === tone.id ? null : tone.id)}
+                className="group flex flex-col items-center gap-0.5 min-w-0"
+                title={tone.name}
+                aria-pressed={skinId === tone.id}
+              >
+                <span
+                  className="h-8 w-8 rounded-full border-2 transition shrink-0 ring-2 ring-transparent"
+                  style={{
+                    backgroundColor: tone.baseHex,
+                    borderColor: skinId === tone.id ? "var(--foreground)" : "var(--border)",
+                    boxShadow: "0 1px 2px rgba(0,0,0,0.06)",
+                  }}
+                />
+                <span className="text-[10px] text-[var(--muted)] hidden sm:block text-center">
+                  {tone.shadeNumber}
+                </span>
+                <span className="text-[9px] text-[var(--muted)] hidden sm:block max-w-full min-w-0 text-center break-words leading-tight" title={tone.name}>
+                  {tone.name}
+                </span>
+              </button>
             ))}
-          </select>
+          </div>
         </div>
+
+        {/* Hair color — color circles */}
         <div>
-          <label className="block text-xs font-medium text-[var(--foreground)] mb-1">Hair color</label>
-          <select
-            value={hairCode}
-            onChange={(e) => setHairCode(e.target.value)}
-            className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)]"
-          >
-            <option value="">Select…</option>
+          <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
+            Hair color
+          </label>
+          <p className="text-sm text-[var(--muted)] mb-3">
+            Select the shade closest to your hair.
+          </p>
+          <div className="grid grid-cols-6 sm:grid-cols-9 gap-2">
             {hairShades.map((h) => (
-              <option key={h.id} value={h.code}>{h.name}</option>
+              <button
+                key={h.id}
+                type="button"
+                onClick={() => setHairCode(hairCode === h.code ? null : h.code)}
+                className="group flex flex-col items-center gap-1"
+                title={h.name}
+                aria-pressed={hairCode === h.code}
+              >
+                <span
+                  className="h-8 w-8 rounded-full border-2 transition shrink-0 ring-2 ring-transparent"
+                  style={{
+                    backgroundColor: h.default_hex,
+                    borderColor: hairCode === h.code ? "var(--foreground)" : "var(--border)",
+                    boxShadow: "0 1px 2px rgba(0,0,0,0.06)",
+                  }}
+                />
+                <span className="text-[10px] text-[var(--muted)] hidden sm:block truncate max-w-full text-center">
+                  {h.name.split(" ")[0]}
+                </span>
+              </button>
             ))}
-          </select>
+          </div>
         </div>
+
+        {/* Eye color — color circles */}
         <div>
-          <label className="block text-xs font-medium text-[var(--foreground)] mb-1">Eye color</label>
-          <select
-            value={eyeCode}
-            onChange={(e) => setEyeCode(e.target.value)}
-            className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)]"
-          >
-            <option value="">Select…</option>
+          <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
+            Eye color
+          </label>
+          <p className="text-sm text-[var(--muted)] mb-3">
+            Select the shade closest to your eyes.
+          </p>
+          <div className="grid grid-cols-6 sm:grid-cols-8 gap-2">
             {eyeShades.map((e) => (
-              <option key={e.id} value={e.code}>{e.name}</option>
+              <button
+                key={e.id}
+                type="button"
+                onClick={() => setEyeCode(eyeCode === e.code ? null : e.code)}
+                className="group flex flex-col items-center gap-1"
+                title={e.name}
+                aria-pressed={eyeCode === e.code}
+              >
+                <span
+                  className="h-8 w-8 rounded-full border-2 transition shrink-0 ring-2 ring-transparent"
+                  style={{
+                    backgroundColor: e.default_hex,
+                    borderColor: eyeCode === e.code ? "var(--foreground)" : "var(--border)",
+                    boxShadow: "0 1px 2px rgba(0,0,0,0.06)",
+                  }}
+                />
+                <span className="text-[10px] text-[var(--muted)] hidden sm:block truncate max-w-full text-center">
+                  {e.name.split(" ")[0]}
+                </span>
+              </button>
             ))}
-          </select>
+          </div>
         </div>
+
         <button
           type="button"
           onClick={handleShow}

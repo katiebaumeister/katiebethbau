@@ -4,28 +4,6 @@ import Hero from "@/components/Hero";
 export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--background)]">
-      <header className="border-b border-[var(--border)] bg-[var(--surface)]">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <Link href="/" className="text-lg font-medium tracking-tight text-[var(--foreground)]">
-            Fabric Finder
-          </Link>
-          <nav className="flex gap-6">
-            <Link
-              href="/finder"
-              className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition"
-            >
-              Find fabric
-            </Link>
-            <Link
-              href="/color-profile"
-              className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition"
-            >
-              Color profile
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       <main>
         <Hero />
 
