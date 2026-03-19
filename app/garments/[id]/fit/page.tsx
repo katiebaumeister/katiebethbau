@@ -26,7 +26,7 @@ export default async function GarmentFitPage({
   if (!garment) notFound();
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen">
       <main className="mx-auto max-w-4xl px-6 py-12">
         <div className="mb-6">
           <Link href="/garments" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)]">

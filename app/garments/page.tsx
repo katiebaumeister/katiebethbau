@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function GarmentsPage() {
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen">
       <main className="mx-auto max-w-4xl px-6 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-light tracking-tight text-[var(--foreground)]">
@@ -39,7 +39,7 @@ export default function GarmentsPage() {
         </ul>
       </main>
 
-      <footer className="mt-16 border-t border-[var(--border)] bg-[var(--surface)] py-8">
+      <footer className="mt-16 py-8">
         <div className="mx-auto max-w-4xl px-6 text-center text-sm text-[var(--muted)]">
           © Katie Beth. All rights reserved.
         </div>

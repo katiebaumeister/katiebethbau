@@ -1,27 +1,18 @@
-import Link from "next/link";
+import Image from "next/image";
+import kb2 from "../flowers/KB-2.png";
 
 export default function Hero() {
   return (
-    <section className="relative flex min-h-[calc(100vh-88px)] items-center overflow-hidden bg-[var(--background)]">
-      <div className="mx-auto max-w-4xl px-6 py-16 text-center sm:py-20">
-        <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)] mb-4">
-          Sew smarter
-        </p>
-        <h1 className="text-4xl font-light tracking-tight text-[var(--foreground)] sm:text-5xl md:text-6xl">
-          Fabric Finder
-        </h1>
-        <p className="mt-6 max-w-2xl mx-auto text-lg text-[var(--muted)] leading-relaxed">
-          Choose the right fabric for your next project—by climate, skin tone,
-          durability, and comfort. Start with a few preferences and get
-          tailored recommendations.
-        </p>
-        <div className="mt-10">
-          <Link
-            href="/finder"
-            className="inline-flex items-center justify-center rounded-full bg-[var(--foreground)] px-8 py-3.5 text-sm font-medium text-[var(--background)] transition hover:opacity-90"
-          >
-            Find My Fabric
-          </Link>
+    <section className="w-full">
+      <div className="mx-auto max-w-4xl px-6 py-1 text-center sm:py-2">
+        <div className="mx-auto w-full max-w-[420px] overflow-hidden">
+          <Image
+            src={kb2}
+            alt="Katie Beth"
+            className="mx-auto h-auto w-full object-contain"
+            style={{ clipPath: "inset(18% 0 18% 0)" }}
+            priority
+          />
         </div>
       </div>
     </section>

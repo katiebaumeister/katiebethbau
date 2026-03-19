@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function NewMeasurementPage() {
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen">
       <main className="mx-auto max-w-4xl px-6 py-12">
         <div className="mb-8">
           <Link href="/measurements" className="text-sm text-[var(--muted)] hover:text-[var(--foreground)]">

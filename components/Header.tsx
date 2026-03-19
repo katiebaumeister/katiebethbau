@@ -1,119 +1,66 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import flower7 from "../flowers/7.png";
+import flower8 from "../flowers/8.png";
+import flower9 from "../flowers/9.png";
+import flower10 from "../flowers/10.png";
+import flower12 from "../flowers/12.png";
+import flower13 from "../flowers/13.png";
+import flower14 from "../flowers/14.png";
+import flower15 from "../flowers/15.png";
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const navItems = [
+    { label: "Home", href: "/", icon: flower7 },
+    { label: "Fabric Finder", href: "/finder", icon: flower8 },
+    { label: "Color Profile", href: "/color-profile", icon: flower9 },
+    { label: "KB's Fashions", href: "/garments", icon: flower10 },
+    { label: "Digital Tailor", href: "/measurements", icon: flower12 },
+    { label: "Bulletin Board", href: "/coming-soon", icon: flower13 },
+    { label: "Club Katie Beth", href: "/coming-soon", icon: flower14 },
+    { label: "Shop", href: "/coming-soon", icon: flower15 },
+  ];
 
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  if (pathname !== "/") {
+    return (
+      <header className="absolute inset-x-0 top-0 z-50">
+        <div className="px-4 py-3 sm:px-6">
+          <Link
+            href="/"
+            className="inline-flex items-center rounded-md border border-[var(--border)] bg-[var(--surface)]/90 px-3 py-1.5 text-sm font-medium text-[var(--foreground)] transition hover:border-[var(--foreground)]"
+          >
+            ← Back to Home
+          </Link>
+        </div>
+      </header>
+    );
+  }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--surface)]">
-      <div className="relative flex w-full items-center justify-between px-4 py-5 sm:px-6">
-        {/* Menu button (left) */}
-        <div className="flex w-10 flex-shrink-0 items-center justify-start" ref={menuRef}>
-          <button
-            type="button"
-            onClick={() => setMenuOpen((o) => !o)}
-            className="flex size-10 items-center justify-center rounded-md text-[#FF66C4] hover:bg-[var(--border)]/50 transition"
-            aria-expanded={menuOpen}
-            aria-haspopup="true"
-            aria-label="Open menu"
-          >
-            <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-          {menuOpen && (
-            <div
-              className="absolute left-6 top-full z-50 mt-1 min-w-[180px] rounded-md border border-[var(--border)] bg-[var(--surface)] py-2 shadow-lg"
-              role="menu"
-            >
-              <Link
-                href="/finder"
-                className="block px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--border)]/50 transition"
-                role="menuitem"
-                onClick={() => setMenuOpen(false)}
-              >
-                Find fabric
-              </Link>
-              <Link
-                href="/color-profile"
-                className="block px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--border)]/50 transition"
-                role="menuitem"
-                onClick={() => setMenuOpen(false)}
-              >
-                Color profile
-              </Link>
-              <Link
-                href="/garments"
-                className="block px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--border)]/50 transition"
-                role="menuitem"
-                onClick={() => setMenuOpen(false)}
-              >
-                Garment fit
-              </Link>
-            </div>
-          )}
-        </div>
-
-        {/* Centered logo */}
-        <div className="absolute left-1/2 flex -translate-x-1/2 translate-y-2 items-center justify-center">
-          <Link href="/" className="block h-24 w-64 overflow-hidden">
-            <Image
-              src="/KB.png"
-              alt="Katie Beth"
-              width={220}
-              height={72}
-              className="h-full w-full scale-[3.5] object-contain"
-              priority
-            />
-          </Link>
-        </div>
-
-        {/* Shopping cart (right) */}
-        <div className="flex items-center justify-end gap-1">
+    <header className="absolute inset-x-0 top-0 z-50">
+      <nav className="mx-auto grid max-w-7xl grid-cols-4 gap-x-2 gap-y-2 px-3 py-2 sm:grid-cols-8 sm:gap-x-3 sm:gap-y-2 sm:px-4 sm:py-3">
+        {navItems.map((item) => (
           <Link
-            href="/measurements"
-            className="flex size-10 items-center justify-center rounded-md text-[#FF66C4] hover:bg-[var(--border)]/50 transition"
-            aria-label="Profile"
+            key={item.label}
+            href={item.href}
+            className="group flex min-w-0 flex-col items-center text-center transition hover:opacity-95"
+            aria-label={item.label}
           >
-            <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975M15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-              />
-            </svg>
+            <Image
+              src={item.icon}
+              alt=""
+              className="h-[72px] w-[72px] object-contain sm:h-[82px] sm:w-[82px]"
+            />
+            <span className="mt-1 line-clamp-2 text-xs font-bold leading-tight text-[var(--foreground)] sm:text-sm">
+              {item.label}
+            </span>
           </Link>
-          <button
-            type="button"
-            className="flex size-10 items-center justify-center rounded-md text-[#FF66C4] hover:bg-[var(--border)]/50 transition"
-            aria-label="Shopping cart"
-          >
-            <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
+        ))}
+      </nav>
     </header>
   );
 }

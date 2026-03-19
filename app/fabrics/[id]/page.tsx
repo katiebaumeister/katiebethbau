@@ -45,7 +45,7 @@ export default async function FabricDetailPage({ params }: PageProps) {
   const referencesGrouped = getAllReferencesForFabricGrouped(fabric.id);
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
+    <div className="min-h-screen">
       <main className="mx-auto max-w-4xl px-6 py-12">
         <div className="mb-8">
           <p className="text-xs uppercase tracking-wider text-[var(--muted)]">
@@ -289,7 +289,7 @@ export default async function FabricDetailPage({ params }: PageProps) {
         </div>
       </main>
 
-      <footer className="mt-16 border-t border-[var(--border)] bg-[var(--surface)] py-8">
+      <footer className="mt-16 py-8">
         <div className="mx-auto max-w-4xl px-6 text-center text-sm text-[var(--muted)]">
           © Katie Beth. All rights reserved.
         </div>

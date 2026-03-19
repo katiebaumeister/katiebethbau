@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Libre_Baskerville, Geist_Mono } from "next/font/google";
+import { Pacifico, Comic_Neue, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 
-const headingSerif = Cormorant_Garamond({
+const headingScript = Pacifico({
   variable: "--font-heading-serif",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400"],
 });
 
-const bodySerif = Libre_Baskerville({
+const bodySans = Comic_Neue({
   variable: "--font-body-serif",
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${headingSerif.variable} ${bodySerif.variable} ${geistMono.variable} antialiased`}
+        className={`${headingScript.variable} ${bodySans.variable} ${geistMono.variable} antialiased`}
       >
         <Header />
         {children}
