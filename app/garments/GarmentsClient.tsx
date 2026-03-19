@@ -2,6 +2,20 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import type { StaticImageData } from "next/image";
+import topButtonUp from "../../clothes/1buttonuptop.png";
+import topCami from "../../clothes/1camitop.png";
+import topHenley from "../../clothes/1henleytops.png";
+import topHighNeckTank from "../../clothes/1highnecktanktop.png";
+import topTshirtBlock from "../../clothes/1tshirtblocktop.png";
+import bottomAline from "../../clothes/2alineskirt.png";
+import bottomCasualLounge from "../../clothes/2casualloungepant.png";
+import bottomCigarette from "../../clothes/2cigarettepant.png";
+import bottomPleated from "../../clothes/2pleatedtrouserpant.png";
+import bottomStraight from "../../clothes/2straightlegpant.png";
+import bottomWide from "../../clothes/2widelegpant.png";
+import mannequin from "../../clothes/me.png";
 
 interface StyleCard {
   id: number;
@@ -16,11 +30,35 @@ interface StyleCard {
   category_name: string;
 }
 
+type RailItem = {
+  id: string;
+  label: string;
+  src: StaticImageData;
+  styleSlug: string;
+};
+
+const topsRail: RailItem[] = [
+  { id: "1buttonuptop", label: "Button-Up Shirt", src: topButtonUp, styleSlug: "classic_button_up_shirt" },
+  { id: "1camitop", label: "Cami Top", src: topCami, styleSlug: "cami_strap_top" },
+  { id: "1henleytops", label: "Henley", src: topHenley, styleSlug: "henley_top" },
+  { id: "1highnecktanktop", label: "High Neck Tank", src: topHighNeckTank, styleSlug: "high_neck_tank" },
+  { id: "1tshirtblocktop", label: "T-Shirt Block", src: topTshirtBlock, styleSlug: "tshirt_block" },
+];
+const bottomsRail = [
+  { id: "2cigarettepant", label: "Cigarette Pant", src: bottomCigarette, styleSlug: "cigarette_pant" },
+  { id: "2straightlegpant", label: "Straight Leg", src: bottomStraight, styleSlug: "straight_leg_trouser" },
+  { id: "2widelegpant", label: "Wide Leg", src: bottomWide, styleSlug: "wide_leg_trouser" },
+  { id: "2pleatedtrouserpant", label: "Pleated Trouser", src: bottomPleated, styleSlug: "pleated_trouser" },
+  { id: "2casualloungepant", label: "Casual Lounge", src: bottomCasualLounge, styleSlug: "elastic_waist_lounge_pant" },
+  { id: "2alineskirt", label: "A-Line Skirt", src: bottomAline, styleSlug: "a_line_skirt" },
+] satisfies RailItem[];
+
 export default function GarmentsClient() {
   const [styles, setStyles] = useState<StyleCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [selectedStyleSlug, setSelectedStyleSlug] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -51,21 +89,61 @@ export default function GarmentsClient() {
   }, [styles]);
 
   const filteredStyles = useMemo(() => {
-    if (activeCategory === "all") return styles;
-    return styles.filter((s) => s.category_code === activeCategory);
-  }, [styles, activeCategory]);
+    let next = activeCategory === "all" ? styles : styles.filter((s) => s.category_code === activeCategory);
+    if (selectedStyleSlug) {
+      next = next.filter((s) => s.slug === selectedStyleSlug);
+    }
+    return next;
+  }, [styles, activeCategory, selectedStyleSlug]);
+
+  const styleBySlug = useMemo(() => {
+    const map = new Map<string, StyleCard>();
+    styles.forEach((s) => map.set(s.slug, s));
+    return map;
+  }, [styles]);
+
+  const visibleTopsRail = useMemo(() => {
+    return topsRail.filter((item) => {
+      const style = styleBySlug.get(item.styleSlug);
+      if (!style) return false;
+      if (activeCategory !== "all" && style.category_code !== activeCategory) return false;
+      return true;
+    });
+  }, [activeCategory, styleBySlug]);
+
+  const visibleBottomsRail = useMemo(() => {
+    return bottomsRail.filter((item) => {
+      const style = styleBySlug.get(item.styleSlug);
+      if (!style) return false;
+      if (activeCategory !== "all" && style.category_code !== activeCategory) return false;
+      return true;
+    });
+  }, [activeCategory, styleBySlug]);
+
+  function handleChipSelect(categoryCode: string) {
+    setActiveCategory(categoryCode);
+    setSelectedStyleSlug(null);
+  }
+
+  function handleRailSelect(styleSlug: string) {
+    setSelectedStyleSlug((prev) => (prev === styleSlug ? null : styleSlug));
+  }
 
   return (
     <div className="min-h-screen">
       <main className="mx-auto max-w-4xl px-6 py-12">
-        <div className="mb-8">
-          <h1 className="text-3xl font-light tracking-tight text-[var(--foreground)]">
-            KB&apos;s Fashions
-          </h1>
-          <p className="mt-2 text-[var(--muted)]">
-            Browse core sewing styles from the Sewing Closet catalog, then open any card to see
-            required measurements and fit details.
-          </p>
+        <div className="mb-8 flex items-center justify-between gap-3">
+          <div>
+            <h1 className="text-3xl font-light tracking-tight text-[var(--foreground)]">
+              KB&apos;s Fashions
+            </h1>
+          </div>
+          <Link
+            href="/garments/closet"
+            className="rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)] transition hover:border-[var(--foreground)]"
+          >
+            Your Closet
+          </Link>
         </div>
 
         <div className="mb-6 flex flex-wrap gap-2">
@@ -73,7 +151,7 @@ export default function GarmentsClient() {
             <button
               key={category.code}
               type="button"
-              onClick={() => setActiveCategory(category.code)}
+              onClick={() => handleChipSelect(category.code)}
               className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
                 activeCategory === category.code
                   ? "border-[var(--foreground)] bg-[var(--foreground)] text-[var(--background)]"
@@ -85,6 +163,71 @@ export default function GarmentsClient() {
           ))}
         </div>
 
+        <section className="mb-8 overflow-hidden rounded-2xl bg-[#f3bfd9]/45 p-2">
+          <div className="relative h-[360px] w-full">
+            <div className="absolute right-2 top-2 h-[340px] w-[220px]">
+              <Image
+                src={mannequin}
+                alt="Mannequin"
+                fill
+                className="object-contain object-right-top"
+                sizes="220px"
+              />
+            </div>
+            <div className="absolute left-2 top-2 flex">
+              {visibleTopsRail.map((item, idx) => (
+                <button
+                  type="button"
+                  key={item.id}
+                  onClick={() => handleRailSelect(item.styleSlug)}
+                  className={`relative h-[190px] w-[190px] shrink-0 transition-transform duration-200 hover:rotate-3 ${
+                    idx > 0 ? "-ml-[120px]" : ""
+                  } ${selectedStyleSlug === item.styleSlug ? "brightness-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]" : ""}`}
+                  style={{
+                    zIndex: idx + 1,
+                    marginTop: `${idx % 3 === 0 ? 0 : idx % 3 === 1 ? 6 : -4}px`,
+                  }}
+                  title={item.label}
+                >
+                  <Image src={item.src} alt={item.label} fill className="object-contain object-left-top" sizes="190px" />
+                </button>
+              ))}
+            </div>
+            <div className="absolute left-2 top-[168px] flex">
+              {visibleBottomsRail.map((item, idx) => (
+                <button
+                  type="button"
+                  key={item.id}
+                  onClick={() => handleRailSelect(item.styleSlug)}
+                  className={`relative h-[210px] w-[190px] shrink-0 transition-transform duration-200 hover:rotate-3 ${
+                    idx > 0 ? "-ml-[130px]" : ""
+                  } ${selectedStyleSlug === item.styleSlug ? "brightness-110 drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]" : ""}`}
+                  style={{
+                    zIndex: idx + 1,
+                    marginTop: `${idx % 3 === 0 ? 0 : idx % 3 === 1 ? 8 : -6}px`,
+                  }}
+                  title={item.label}
+                >
+                  <Image src={item.src} alt={item.label} fill className="object-contain object-left-top" sizes="190px" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {selectedStyleSlug ? (
+          <div className="mb-4 flex items-center justify-between rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--foreground)]">
+            <span>Focused on selected item. Showing one related card.</span>
+            <button
+              type="button"
+              onClick={() => setSelectedStyleSlug(null)}
+              className="rounded-md border border-[var(--border)] px-2 py-1 hover:border-[var(--foreground)]"
+            >
+              Clear selection
+            </button>
+          </div>
+        ) : null}
+
         {loading ? (
           <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-8 text-center text-[var(--muted)]">
             Loading styles...
@@ -93,9 +236,9 @@ export default function GarmentsClient() {
           <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-8 text-center text-[var(--muted)]">
             {error}
           </div>
-        ) : filteredStyles.length === 0 ? (
+        ) : !selectedStyleSlug ? null : filteredStyles.length === 0 ? (
           <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-8 text-center text-[var(--muted)]">
-            No styles found in this category yet.
+            No matching style found.
           </div>
         ) : (
           <ul className="grid gap-4 sm:grid-cols-2">

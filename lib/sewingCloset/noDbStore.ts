@@ -201,6 +201,19 @@ const REQUIREMENTS_BY_CATEGORY: Record<string, string[]> = {
   dresses: ["shoulder_width", "bust_full", "bust_high", "waist_natural", "high_hip", "hip_full", "waist_to_hip", "dress_length_target"],
 };
 
+const OPTIONAL_BY_CATEGORY: Record<string, string[]> = {
+  pants: ["thigh_circumference", "knee_circumference", "ankle_circumference"],
+  skirts: ["high_hip"],
+  shorts: ["thigh_circumference", "leg_opening_target"],
+  tops: ["bust_apex_to_apex", "underbust"],
+  tanks: ["bust_apex_to_apex"],
+  bras: ["torso_girth", "upper_torso_length"],
+  underwear: ["shorts_length_target", "leg_opening_target"],
+  long_sleeves: ["wrist_circumference", "sleeve_length"],
+  denims: ["thigh_circumference", "knee_circumference", "ankle_circumference"],
+  dresses: ["bust_apex_to_apex", "back_waist_length"],
+};
+
 const FABRIC_RECS_BY_CATEGORY: Record<string, FabricSeed[]> = {
   pants: [
     { code: "wool_suiting", name: "Wool Suiting", fabric_family: "woven", stretch_type: "none", drape_level: "medium", structure_level: "structured", weight_category: "medium", supportiveness: "medium", recommendation_strength: "ideal", reason: "Classic tailored structure." },
@@ -337,7 +350,8 @@ export function getMeasurementsForStyleNoDb(slug: string) {
   const style = getStyleNoDb(slug);
   if (!style) return [];
   const requiredCodes = REQUIREMENTS_BY_CATEGORY[style.category_code] ?? [];
-  return requiredCodes
+  const optionalCodes = OPTIONAL_BY_CATEGORY[style.category_code] ?? [];
+  const requiredRows = requiredCodes
     .map((code, index) => {
       const mt = MEASUREMENT_TYPES.find((m) => m.code === code);
       if (!mt) return null;
@@ -349,6 +363,20 @@ export function getMeasurementsForStyleNoDb(slug: string) {
       };
     })
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
+  const optionalRows = optionalCodes
+    .map((code, index) => {
+      const mt = MEASUREMENT_TYPES.find((m) => m.code === code);
+      if (!mt) return null;
+      return {
+        ...mt,
+        required_boolean: false,
+        priority_order: requiredRows.length + index + 1,
+        tolerance_note: "Optional but helpful for higher-confidence guidance.",
+      };
+    })
+    .filter((m): m is NonNullable<typeof m> => Boolean(m));
+
+  return [...requiredRows, ...optionalRows];
 }
 
 export function getFabricsForStyleNoDb(slug: string) {
