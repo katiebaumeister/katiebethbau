@@ -12,7 +12,7 @@ export default function ComingSoonPage() {
           Coming Soon
         </h1>
         <p className="mt-4 text-lg text-[var(--muted)]">
-          This feature is on the way. Check back soon for updates.
+          We&apos;re still building here, our small but mighty team of 2 is working as fast we can. Check back soon for updates.
         </p>
         <div className="mt-8">
           <Link

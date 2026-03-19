@@ -20,8 +20,8 @@ export default function Header() {
     { label: "Color Profile", href: "/color-profile", icon: flower9 },
     { label: "KB's Fashions", href: "/garments", icon: flower10 },
     { label: "Digital Tailor", href: "/measurements", icon: flower12 },
-    { label: "Bulletin Board", href: "/coming-soon", icon: flower13 },
-    { label: "Club Katie Beth", href: "/coming-soon", icon: flower14 },
+    { label: "Bulletin Board", href: "/bulletin-board", icon: flower13 },
+    { label: "Club Katie Beth", href: "/club-katie-beth", icon: flower14 },
     { label: "Shop", href: "/coming-soon", icon: flower15 },
   ];
 
